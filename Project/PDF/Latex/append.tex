@@ -1,0 +1,713 @@
+\chapter*{Appendix}
+
+
+\textbf{\Large Code 01}\\
+
+\begin{framed}
+\begin{verbatim}
+
+package main.java.com.iim;
+import java.io.IOException;
+import java.io.PrintWriter;
+import com.opencsv.CSVWriter;
+import com.opencsv.CSVReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.util.List;
+import java.util.ArrayList;
+import java.lang.Math;
+import java.text.Format;
+import com.iim.ode;
+
+
+public final class Euler {
+ 
+
+// Global variable for values obatain from w,x,y and z. 
+// Global variable can be accesed anywhere within the class. 
+
+private double _w;
+private double _x;
+private double _y;
+private double _z;
+
+    public Euler(double w, double x, double y, double z){
+
+
+        _w = w;
+        _x = x;
+        _y = y;
+        _z = z;
+    }
+
+
+// Defining the ODE equation of STAT1 concentration 
+    public static double dw(double w, double x, double y, double z) {
+
+        double lamdaS1 = 1;
+        double S = 1;
+        double k_1 = 4;
+        double k_2 = 1;
+        double alpha = 1.5;
+
+
+        return  (lamdaS1*S) +( (k_1*Math.pow((k_2),2))/ (Math.pow((k_2),2) 
+        + (alpha*Math.pow((x),2))) ) - w;
+    }
+
+// Defining the ODE equation of STAT3 concentration     
+    public static double dx(double w, double x, double y, double z) {
+
+        double lamda_k = 1;
+        double lamda_J = 4;
+        double J = 1;
+        double K = 5;
+        double lamdaS2 = 1;
+        double k_3 = 4;
+        double k_4 = 1;
+        double beta = 1;
+        double S = 1;
+
+        return ((lamda_k + (lamda_J* J)) / (K+ (lamdaS2* S))) 
+        + (((k_3)*Math.pow((k_4),2)) / ((Math.pow((k_4),2))
+        + beta*Math.pow((w),2)))-x;
+    }
+
+
+// Defining the ODE equation of Bcl-2 concentration  
+    public static double dy(double w, double x, double y, double z) {
+        double lamda_1 = 0.2;
+        double k_5 = 1;
+        double k_6 = 1;
+        double gemma = 1;
+        double lamda_3 = 1.2;
+        double mu_B = 1.2;
+
+        return lamda_1+ (k_5*Math.pow((k_6),2)) / (Math.pow((k_6),2)+ 
+        (gemma *Math.pow((w),2))) + 
+        (lamda_3* x) - (mu_B*y);
+    }
+
+// Defining the ODE equation of BAX concentration     
+    public static double dz(double w, double x, double y, double z) {
+        double lamda_2 = 0.2;
+        double k_7 = 4;
+        double k_8 = 1;
+        double delta = 1;
+        double mu_X = 5;
+        
+
+        return lamda_2 + (k_7*Math.pow((k_8),2)) / (Math.pow((k_8),2) + 
+        (delta*Math.pow((y),2)))- (mu_X*z);
+    }
+
+
+
+    public double getw(){
+        return _w;
+    }
+
+    public double getx(){
+        return _x;
+    }
+    
+    public double gety(){
+        return _y;
+    }
+    
+    public double getz(){
+        return _z;
+    }
+    
+
+
+    public static void main(String[] args) throws FileNotFoundException {
+
+
+        // Deifining the initial points 
+
+            double w = 2.43;   //STAT1 level
+            double x = 1.38;   //STAT3 Level
+            double y = 10;     //Bcl-2 level
+            double z = 351;    //BAX level
+            double dt = 0.1;   //Step size
+            double time = 10;  //Time duration
+            double iteration = time/dt;   //Iteration
+
+
+        // All data write into CSV file    
+    
+            File CSVfile = new File("Euler11.csv");
+    
+            ArrayList<Euler> values= new  ArrayList<>();
+
+        // Values is the arraylist created to store multiple values 
+        // That are stored using the value object in the line 138
+        // Value object has 4 values namely w,x,y and z
+
+            PrintWriter pw = new PrintWriter(CSVfile);
+
+        // Use Euler's method to numerically solve ODE
+
+            for (int i = 0; i < iteration; i++) {
+    
+                double dw = dw(w, x, y, z);
+                double dx = dx(w, x, y, z);
+                double dy = dy(w, x, y, z); 
+                double dz = dz(w, x, y, z);
+                w = w + dw*dt;
+                x = x + dx*dt;
+                y = y + dy*dt;
+                z = z + dz*dt;
+            
+            
+    
+                Euler value= new Euler(w, x, y, z);
+                values.add(value);
+    
+                if(i%1000 ==0){
+                    System.out.println("w: "+w+" x: "+x+
+                    " y: "+y+" z: "+z);
+                }
+
+            }
+
+            String col1 = "w";
+            String col2 = "x";
+            String col3 = "y";
+            String col4 = "z";
+            
+            pw.printf("%s,%s,%s,%s",col1,col2,col3,col4 ); 
+            pw.print("\n");
+            
+            for(Euler reading: values){
+
+            pw.printf("%f,%f,%f,%f",reading.getw(),reading.getx()
+            ,reading.gety(),reading.getz());
+
+        // The 4 values obtained for w,x,y and z are printed in the
+        
+        CSV file.
+
+            pw.print("\n");
+
+
+            
+        // The printwriter has to be closed in 
+        oder for the code to finish execution of the CSV file creation.
+        }
+        pw.close();
+    
+        }
+    }
+\end{verbatim}
+\end{framed}
+
+\textbf{\Large Code 02}\\
+
+\begin{framed}
+\begin{verbatim}
+package main.java.com.iim;
+import java.io.IOException;
+import java.io.PrintWriter;
+import com.opencsv.CSVWriter;
+import com.opencsv.CSVReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.util.List;
+import java.util.ArrayList;
+import java.lang.Math;
+import java.text.Format;
+import com.iim.ode;
+
+
+public final class runge {
+ 
+
+// Global variable for values obatain from w,x,y and z. 
+Global variable can be accesed anywhere within the class. 
+
+private double _w;
+private double _x;
+private double _y;
+private double _z;
+
+    public runge(double w, double x, double y, double z){
+    
+        _w = w;
+        _x = x;
+        _y = y;
+        _z = z;
+    }
+    public static double dw(double w, double x, double y, double z) {
+
+        double lamdaS1 = 1;
+        double S = 1;
+        double k_1 = 4;
+        double k_2 = 1;
+        double alpha = 1.5;
+
+
+        return  (lamdaS1*S) +( (k_1*Math.pow((k_2),2))/
+        
+        (Math.pow((k_2),2) + (alpha*Math.pow((x),2))) ) - w;
+    }
+
+    public static double dx(double w, double x, double y, double z) {
+
+        double lamda_k = 1;
+        double lamda_J = 4;
+        double J = 1;
+        double K = 5;
+        double lamdaS2 = 1;
+        double k_3 = 4;
+        double k_4 = 1;
+        double beta = 1;
+        double S = 1;
+
+        return ((lamda_k + (lamda_J* J)) / 
+        (K+ (lamdaS2* S))) + (((k_3)*Math.pow((k_4),2)) / 
+        ((Math.pow((k_4),2))+ (beta*Math.pow((w),2))))-x;
+    }
+
+    public static double dy(double w, double x, double y, double z) {
+        double lamda_1 = 0.2;
+        double k_5 = 1;
+        double k_6 = 1;
+        double gemma = 1;
+        double lamda_3 = 1.2;
+        double mu_B = 1.2;
+
+        return lamda_1+ ((k_5*Math.pow((k_6),2)) / (Math.pow((k_6),2)+
+        (gemma *Math.pow((w),2)))) +  (lamda_3* x) - (mu_B*y);
+    }
+
+    public static double dz(double w, double x, double y, double z) {
+     
+        double lamda_2 = 0.2;
+        double k_7 = 4;
+        double k_8 = 1;
+        double delta = 1;
+        double mu_X = 5;
+        
+        return lamda_2 + ((k_7*Math.pow((k_8),2)) / (Math.pow((k_8),2) + 
+        (delta*Math.pow((y),2))))- (mu_X*z);
+    }
+
+    public double getw(){
+        return _w;
+    }
+
+    public double getx(){
+        return _x;
+    }
+    
+    public double gety(){
+        return _y;
+    }
+    
+    public double getz(){
+        return _z;
+    }
+    
+    public static void main(String[] args) throws FileNotFoundException {
+
+        //initial points 
+        double w = 2.43;
+        double x = 1.38;
+        double y = 10;
+        double z = 351;
+        double dt = 0.1; 
+        double time = 10;
+        double iteration = time/dt;
+
+        // ode ODE = new ode();
+        
+        File CSVfile = new File("readingsrunge11.csv");
+
+        ArrayList<runge> values= new  ArrayList<>();
+       
+        for (int i = 0; i < iteration; i++) {
+
+            double k1w = dw(w, x, y, z) * dt;
+            double k1x = dx(w, x, y, z) * dt;
+            double k1y = dy(w, x, y, z) * dt;
+            double k1z = dz(w, x, y, z) * dt;
+    
+            double k2w = dw(w + k1w/2, x + k1x/2, y + k1y/2, z + k1z/2) * dt;
+            double k2x = dx(w + k1w/2, x + k1x/2, y + k1y/2, z + k1z/2) * dt;
+            double k2y = dy(w + k1w/2, x + k1x/2, y + k1y/2, z + k1z/2) * dt;
+            double k2z = dz(w + k1w/2, x + k1x/2, y + k1y/2, z + k1z/2) * dt;
+    
+            double k3w = dw(w + k2w/2, x + k2x/2, y + k2y/2, z + k2z/2) * dt;
+            double k3x = dx(w + k2w/2, x + k2x/2, y + k2y/2, z + k2z/2) * dt;
+            double k3y = dy(w + k2w/2, x + k2x/2, y + k2y/2, z + k2z/2) * dt;
+            double k3z = dz(w + k2w/2, x + k2x/2, y + k2y/2, z + k2z/2) * dt;
+    
+            double k4w = dw(w + k3w, x + k3x, y + k3y, z + k3z) * dt;
+            double k4x = dx(w + k3w, x + k3x, y + k3y, z + k3z) * dt;
+            double k4y = dy(w + k3w, x + k3x, y + k3y, z + k3z) * dt;
+            double k4z = dy(w + k3w, x + k3x, y + k3y, z + k3z) * dt;
+
+        // update variables
+        w =w+  (k1w + 2*k2w + 2*k3w + k4w) / 6;
+        x =x+  (k1x + 2*k2x + 2*k3x + k4x) / 6;
+        y =y+  (k1y + 2*k2y + 2*k3y + k4y) / 6;
+        z =z+  (k1z + 2*k2z + 2*k3z + k4z) / 6;
+    
+        // store values in cancer object
+        runge value= new runge(w, x, y, z);
+        values.add(value);
+            
+        }
+            String col1 = "w";
+            String col2 = "x";
+            String col3 = "y";
+            String col4 = "z";
+            
+            pw.printf("%s,%s,%s,%s",col1,col2,col3,col4 ); 
+            pw.print("\n");
+            
+            for(runge reading: values){
+            pw.printf("%f,%f,%f,%f",reading.getw(),reading.getx(),
+            reading.gety(),reading.getz());
+  
+            pw.print("\n");
+        }
+        pw.close();  
+    }
+}
+\end{verbatim}
+\end{framed}
+
+
+
+\newpage
+
+\textbf{\Large Code 03}
+
+\begin{framed}
+\begin{verbatim}
+
+#Import libraries
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+#Uploading the CSV files 
+
+df1 = pd.read_csv("/content/Euler11.csv", error_bad_lines=False)
+df2 = pd.read_csv("/content/readingsrunge11.csv") 
+
+#Creating the Time column
+
+value = 0.1
+df1["Time"] = df1.index * value
+df2["Time"] = df2.index * value
+
+#Plotting the Euler's results
+
+fig = plt.figure()
+ax = fig.add_subplot(111)
+ax.plot(df1["Time"],df1["w"], 'r-', linestyle='solid', linewidth=2.5, 
+label='STAT1')
+ax.plot(df1["Time"],df1["x"],'b-', linestyle='dashed', linewidth=2.5, 
+label='STAT3')
+ax.plot(df1["Time"],df1["y"],'g-', linestyle='dotted', linewidth=2.5, 
+label='BCL-2')
+ax.plot(df1["Time"],df1["z"],'y-', linestyle='dashdot', linewidth=2.5, 
+label='BAX')
+ax.legend()
+ax.set_title("Behaviour in time using Euler method")
+ax.set_xlabel("Time")
+ax.set_ylabel("Concentration")
+ax.grid()
+ax.legend(loc='best')
+plt.show()
+
+#Plotting the Runge kutta's results
+
+fig = plt.figure()
+ax = fig.add_subplot(111)
+ax.plot(df2["Time"],df2["w"], 'r-', linestyle='solid', linewidth=2.5, 
+label='STAT1')
+ax.plot(df2["Time"],df2["x"],'b-', linestyle='dashed', linewidth=2.5, 
+label='STAT3')
+ax.plot(df2["Time"],df2["y"],'g-', linestyle='dotted', linewidth=2.5, 
+label='BCL-2')
+ax.plot(df2["Time"],df2["z"],'y-', linestyle='dashdot', linewidth=2.5, 
+label='BAX')
+ax.legend()
+ax.set_title("Behaviour in time using Runge Kutta fourth order method")
+ax.set_xlabel("Time")
+ax.set_ylabel("Concentration")
+ax.grid()
+ax.legend(loc='best')
+plt.show()
+
+
+#Plotting the STAT1 results
+
+fig = plt.figure()
+ax = fig.add_subplot(111)
+ax.plot(df1["Time"],df1["w"], 'r-', linestyle='solid',linewidth=2.5, 
+label='Euler')
+ax.plot(df2["Time"],df2["w"],'b-', linestyle='dashed',linewidth=2.5, 
+label='Runge Kutta')
+ax.legend()
+ax.set_title("Behaviour of STAT1 in time")
+ax.set_xlabel("Time")
+ax.set_ylabel("STAT1")
+ax.grid()
+ax.legend(loc='best')
+plt.show()
+
+#Plotting the STAT3 results
+
+fig = plt.figure()
+ax = fig.add_subplot(111)
+ax.plot(df1["Time"],df1["x"], 'r-', linestyle='solid',linewidth=2.5, 
+label='Euler')
+ax.plot(df2["Time"],df2["x"],'b-', linestyle='dashed',linewidth=2.5, 
+label='Runge Kutta')
+ax.legend()
+ax.set_title("Behaviour of STAT3 in time")
+ax.set_xlabel("Time")
+ax.set_ylabel("STAT3")
+ax.grid()
+ax.legend(loc='best')
+plt.show()
+
+
+#Plotting the Bcl-2 results
+
+
+fig = plt.figure()
+ax = fig.add_subplot(111)
+ax.plot(df1["Time"],df1["y"], 'r-', linestyle='solid',linewidth=2.5, 
+label='Euler')
+ax.plot(df2["Time"],df2["y"],'b-', linestyle='dashed',linewidth=2.5, 
+label='Runge Kutta')
+ax.legend()
+ax.set_title("Behaviour of BCL-2 in time")
+ax.set_xlabel("Time")
+ax.set_ylabel("BCL-2")
+ax.grid()
+ax.legend(loc='best')
+plt.show()
+
+#Plotting the BAX results
+
+fig = plt.figure()
+ax = fig.add_subplot(111)
+ax.plot(df1["Time"],df1["z"], 'r-', linestyle='solid',linewidth=2.5, 
+label='Euler')
+ax.plot(df2["Time"],df2["z"],'b-', linestyle='dashed',linewidth=2.5, 
+label='Runge Kutta')
+ax.legend()
+ax.set_title("Behaviour of BAX in time")
+ax.set_xlabel("Time")
+ax.set_ylabel("BAX")
+ax.grid()
+ax.legend(loc='best')
+plt.show()
+
+
+\end{verbatim}
+\end{framed}
+
+\newpage
+
+\textbf{\Large Code 04}
+
+\begin{framed}
+\begin{verbatim}
+
+import numpy as np
+from scipy.optimize import root
+
+def H1(s, S1, S3, B, X):
+    return (lambda_S1 * S) + (k1 * k2**2 / (k2**2 + alpha * S3**2)) - S1
+
+def H2(s, S1, S3, B, X):
+    return ((lambda_k + lambda_J * J) / (K + lambda_S2 * S)) + 
+    (k3 * k4**2 / (k4**2 + beta * S1**2)) - S3
+
+def H3(s, S1, S3, B, X):
+    return lambda_1 + (k5 * k6**2 / (k6**2 + gamma * S1**2)) - 
+    
+    (lambda_3 * S3) - (mu_B * B)
+
+def H4(s, S1, S3, B, X):
+    return lambda_2 + (k7 * k8**2 / (k8**2 * delta * B**2)) - (mu_X * X)
+
+def equations(s):
+    S1, S3, B, X = s
+    return H1(s, S1, S3, B, X), H2(s, S1, S3, B, X), 
+    H3(s, S1, S3, B, X), H4(s, S1, S3, B, X)
+
+# Set the parameters
+lambda_S1 = 1
+S = 0
+k1 = 4
+k2 = 1
+alpha = 1.5
+lambda_k = 1
+lambda_J = 4
+J = 1
+K = 5
+lambda_S2 = 1
+k3 = 4
+k4 = 1
+beta = 1
+S = 1
+lambda_1 = 0.2
+k5 = 1
+k6 = 1
+gamma = 1
+lambda_3 = 1.2
+mu_B = 1.2
+lambda_2 = 0.2
+k7 = 4
+k8 = 1
+delta = 1
+mu_X = 5
+
+# Initial guess for the state variables
+s0 = [2.43 , 1.38 , 10, 351]
+
+# Finding the equilibrium points using root function
+equil_points = root(equations, s0)
+
+S1_eq, S3_eq, B_eq, X_eq = equil_points.x
+
+print("Equilibrium points: 
+S1 = {0}, S3 = {1}, B = {2}, X = {3}".format(S1_eq, S3_eq, B_eq, X_eq))
+
+\end{verbatim}
+\end{framed}
+
+
+
+\\
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

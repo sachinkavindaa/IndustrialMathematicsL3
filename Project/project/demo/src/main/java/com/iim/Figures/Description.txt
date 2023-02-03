@@ -1,0 +1,27 @@
+Dear all,
+
+These results were obtained corresponding to the runge.java and Euler.java
+codes considering the Runga kutta fourth order method and Euler method.
+
+To obatined the results considered inatial values as given below.
+
+STAT1 (w) = 0;
+STAT3 (x) = 0;
+BCL-2 (y) = 0;
+BAX   (z) = 0;
+Step size (dt) = 0.0001; 
+Time duration (time) = 10;
+iteration = time/dt;
+
+Reuslts were obatined correspondig to the different S and J value. 
+Each and every file renamed as the way i used. 
+
+Example: File name S0J1 means, 
+
+All the results were illustrated relative S and J value respectively.  
+In here S = 0 and J = 1
+
+File name describes the S and J value. 
+
+Herewith i have attched the CSV file,Results and Code too. 
+If any alternative changes will be informed you.  

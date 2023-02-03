@@ -1,0 +1,148 @@
+%\documentclass[a4paper,12pt,oneside,draft]{report}
+\documentclass[a4,12pt,fullpage]{report}
+%\setpapersize{A4}
+%\usepackage{a4}
+%\usepackage{lscape} % in latex preamble
+\usepackage{amssymb,graphicx, rotating, epstopdf}
+\usepackage{epsfig,amsmath,amsfonts}
+\usepackage{float}
+\usepackage[english]{babel}
+\usepackage{subfigure}
+\usepackage{vmargin}
+\usepackage{textcomp}
+\usepackage{notebook}
+\usepackage{setspace}
+\usepackage{pxfonts}
+\usepackage{booktabs}
+\usepackage{mathtools}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{cancel}
+\usepackage{subfigure}
+\usepackage[export]{adjustbox}
+    \usepackage{wrapfig, framed,multicol}
+    \usepackage{lipsum}
+    \usepackage{filecontents}
+    \usepackage[numbered,framed]{matlab-prettifier}%
+
+        % Line spacing
+%\setmargins{3.5cm}{3.5cm}{14cm}{20cm}{0pt}{2cm}{0pt}{3cm}
+%\setmargins{2.5cm}{2.5cm}{16cm}{22cm}{0pt}{1cm}{0pt}{2cm}
+%\usepackage{showkeys}
+\usepackage{fancyhdr}
+%\pagestyle{fancy}
+%\lhead{\nouppercase{\leftmark}}
+%\chead{}
+%\rhead{\thepage}
+%\lfoot{}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{definition}{Definition}[section]
+\newtheorem{remark}{Remark}[section]
+\newtheorem{proof}{Proof}[section]
+\newtheorem{example}{Example}[section]
+\newtheorem{lemma}{Lemma}[section]
+%\newtheorem{property}[thm]{Property}
+%\definition{def}{Definition}[chapter]
+%\cfoot{\thepage}
+%\rfoot{}
+\topmargin 1cm
+\oddsidemargin 2cm
+\evensidemargin 2cm
+\textwidth 16.59cm
+\textheight 21.94cm
+\renewcommand{\baselinestretch}{0.5}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   LAYOUT OF THE THESIS %%%%%%%%%%%%%%%%%%%%%%%%%%
+%\input{thesis_layout.tex}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% NEW DEFINITIONS       %%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% MAIN DOCUMENT %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\includeonly{section2}
+%\includeonly{ch4}
+\begin{document}
+
+\onehalfspacing
+
+%\noindent
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% TITLE PAGE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\pagenumbering{roman}
+%\setcounter{page}{1}
+%\thispagestyle{empty}
+\include{front}
+\pagenumbering{roman}
+\setcounter{page}{1}
+%\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% ACKNOWLEDGEMENTS ABSTRACT etc.%%%%%%%%%%%%%%%%%%
+%\thispagestyle{empty}
+\include{dec}
+%\noindent
+%\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  MAIN CHAPTERS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\include{Ack}
+\include{Abstract}
+%\renewcommand{\contentsname}{Contents}  % Original name = Contents
+%\include{Ack}
+%\begin{spacing}{1.5} % Environment for 1.2 line spacing for contents and lists
+\tableofcontents
+\newpage
+%\cleardoublepage
+%\end{spacing}
+%\begin{spacing}{1.2}
+\listoftables
+\newpage
+\listoffigures
+%\cleardoublepage
+%\end{spacing}
+\newpage
+%\addcontentsline{toc}{chapter}{Introduction}
+\pagenumbering{arabic}
+\setcounter{page}{1}
+%\input{chap0.tex}
+%\include{Ch2.tex}
+ %\input{ch1.tex}
+ 
+
+ 
+ 
+\input{ch1.tex}
+%\include{ch1.tex}
+\input{ch2.tex}
+\include{Lit.tex}
+\input{ch3.tex}
+%\include{ch3.tex}
+\input{ch4.tex}
+%\include{ch4.tex}
+\input{ch5.tex}
+%\include{ch5.tex}
+\input{ch6.tex}
+%\include{ch6.tex}
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% APPENDIX %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{appendix}
+\include{append}
+\end{appendix}
+
+
+%\appendix
+%\include{thesis_app_a}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  BIBLIOGRAPHY %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{spacing}{1.2}
+%\listoffigures
+%\cleardoublepage
+%\end{spacing}
+%\include{biblio}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\bibliographystyle{unsrt}
+\bibliography{myrefs.bib}
+
+%\begin{thebibliography}{99}
+
+
+%\end{thebibliography}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document}

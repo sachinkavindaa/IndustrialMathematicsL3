@@ -1,0 +1,146 @@
+\chapter{Numerical Method for Ordinary Differential Equations}
+\label{chap:04}
+
+\paragraph{}
+
+
+Differential equations are a powerful tool for describing systems that are changing over time. They are used in a wide range of fields, including science and engineering, economics, social science, biology, business, and health care. Mathematicians have developed many techniques for understanding and solving these equations, and many complex systems can be precisely described using these mathematical tools.
+
+However, many systems are so complex or so large that a purely mathematical description is not possible. In these cases, computer simulations and numerical approximations can be used to better understand the system. Before the advent of programmable computers, solving differential equations required large teams of people working with mechanical calculators. Today, however, the increased speed and power of computers has made it possible to solve even the most complex systems of differential equations on a single machine. 
+
+In this section, we will discuss some of the fundamental strategies and techniques for solving differential equations using Java. We will start by looking at the basics of differential equations for intracellular signalling networks (STAT1, STAT3, Bcl-2 and
+BAX). Then, we will introduce two popular numerical methods for solving these equations: the Runge-Kutta fourth-order method and Euler's method. These methods allow us to obtain numerical results for the systems we are studying, even if a purely mathematical solution is not possible. Overall, this section provides an overview of how to use differential equations and numerical methods to understand complex systems. 
+
+
+
+\section{Numerical investigation using Euler's method}
+\label{sec:4.1}
+\paragraph{}
+
+In this section, all the details about numerical analysis using Euler's method for the as earlier stated, four differential equations ( equation \eqref{e1}, \eqref{e2}, \eqref{e3} and  \eqref{aac}) will be discussed. Euler's method is a simple and popular technique for numerically solving ordinary differential equations (ODEs). To use Euler's method to solve the equations above, you would follow these steps:
+
+\begin{enumerate}
+    \item Set the initial conditions for each variable in the equations, such as $S_1(0)$, $S_3(0)$, $B(0)$, and $X(0)$.
+    \item Choose a step size (often denoted as $h$) and a time interval over which you want to solve the equations, such as $0$ to $10$ seconds with a step size of $0.1$ seconds.
+    \item Iterate over the time interval, updating the value of each variable at each step using the following formula:
+
+    \begin{equation}
+        S_1(t + h) = S_1(t) + h * \frac{dS_1}{dt}
+    \end{equation}
+
+    \begin{equation}
+        S_3(t + h) = S_3(t) + h * \frac{dS_3}{dt}
+    \end{equation}
+
+      \begin{equation}
+        B(t + h) = B(t) + h * \frac{dB}{dt}
+    \end{equation}
+
+      \begin{equation}
+        X(t + h) = X(t) + h * \frac{dX}{dt}
+    \end{equation}
+
+    Where the right-hand side of each of these equations is evaluated using the current values of the variables and the parameters in the equations.
+
+\item Repeat step 3 until you have reached the end of the time interval. The resulting values of each variable at each time step will be an approximation of the proper solution to the equations.
+ 
+\end{enumerate}
+
+
+ Note that Euler's method is first-order, meaning that the approximation error increases as the step size decreases. Therefore, the solution may not be accurate for small step sizes. You can use higher-order methods such as the Runge-Kutta method to improve the accuracy.
+
+\section{ Numerical integration technique for Runge-Kutta fourth order method}
+\paragraph{}
+
+The Runge-Kutta fourth-order method (also known as the RK4 method) is a numerical method for solving ordinary differential equations (ODEs). The basic idea behind the method is to approximate the solution of the ODE at a given time step by using a weighted average of four estimates of the solution at that time step, each estimate being based on a different approximation of the derivative of the solution at that time step.
+
+The Runge-Kutta fourth-order method (also known as the RK4 method) is a numerical method for solving ordinary differential equations (ODEs). The basic idea behind the method is to approximate the solution of the ODE at a given time step by using a weighted average of four estimates of the solution at that time step, each estimate being based on a different approximation of the derivative of the solution at that time step.
+
+Once you have the initial conditions and time step specified, you would then use the following procedure to solve the ODEs:
+
+\begin{enumerate}
+    \item Set the initial values of $S_1$, $S_3$, $B$, and $X$ to their initial conditions.
+    \item For each time step, starting from the initial time, repeat the following steps:
+
+    \begin{itemize}
+        \item Compute the derivatives of $S_1$, $S_3$, $B$, and $X$ at the current time step using equations (\eqref{e1})-(\eqref{e4}).
+
+        \item Use the derivatives to compute the following estimates of the solution at the next time step:
+
+\begin{equation}
+     - S_1^1 = \Delta t \left(\lambda_{S_1} S + \frac{ k_1k_2^2} {k_2^2+\alpha S_3^2} - S_1\right)
+\end{equation}
+
+\begin{equation}
+      - S_3^1 = \Delta t \left( \frac{\lambda_k+\lambda_JJ} {K+ \lambda_{S_2} S} +\frac{k_3{k_4}^2}{{k_4}^2+\beta{S_1}^2}-S_3\right)
+\end{equation}
+
+\begin{equation}
+    - B^1 = \Delta t\left( \lambda_1+ \frac{k_5{k_6}^2}{{k_6}^2+\gamma{S_1}^2} -  \lambda_3 S_3 - \mu_BB\right)
+\end{equation}
+    
+\begin{equation}
+     - X^1 = \Delta t\left(\lambda_2+ \frac{k_7{k_8}^2}{{k_8}^2\delta B^2} -\mu_XX\right)
+\end{equation}
+
+\item Compute the derivatives of $S_1$, $S_3$, $B$, and $X$ at the next time step using equations (\eqref{e1})-(\eqref{e4}) and the estimates obtained in step 2b. 
+
+\begin{equation}
+     - S_1^2 = \Delta t \left(\lambda_{S_1} (S+S_1^1/2) + \frac{ k_1k_2^2} {k_2^2+\alpha (S_3+S_3^1/2)^2} - (S_1+S_1^1/2)\right)
+\end{equation}
+
+\begin{equation}
+ -S_3^2 = \Delta t \left( \frac{\lambda_k+\lambda_JJ} {K+ \lambda_{S_2} (S+S_1^1/2)} +\frac{k_3{k_4}^2}{{k_4}^2+\beta(S_1+S_1^1/2)^2}-(S_3+S_3^1/2) \right
+\end{equation}
+
+\begin{equation}
+    -B^2 = \Delta t \left( \lambda_1+ \frac{k_5{k_6}^2}{{k_6}^2+\gamma(S_1+S_1^1/2)^2} - \lambda_3 (S_3+S_3^1/2) - \mu_B (B+B^1/2)\right)
+\end{equation}
+
+\begin{equation}
+    -X^2 = \Delta t \left( \lambda_2+ \frac{k_7{k_8}^2}{{k_8}^2\delta (B+B^1/2)^2} -\mu_X (X+X^1/2)\right)
+\end{equation}
+
+    \end{itemize}
+
+\item Using the initial conditions and the ODEs (equations \eqref{e1}, \eqref{e2}, \eqref{e3}, and \eqref{e4}), compute the values of k1, k2, k3, and k4 for each variable at the current time step.
+
+\begin{equation}
+    k1 = h * (\lambda_{S_1} S + \frac{ k_1k_2^2} {k_2^2+\alpha S_3^2} - S_1)
+\end{equation}
+
+\begin{equation}
+    k2 = h * (\frac{\lambda_k+\lambda_JJ} {K+ \lambda_{S_2} S} +\frac{k_3{k_4}^2}{{k_4}^2+\beta{S_1}^2}-S_3)
+\end{equation}
+
+\begin{equation}
+    k3 = h * (\lambda_1+ \frac{k_5{k_6}^2}{{k_6}^2+\gamma{S_1}^2} - \lambda_3 S_3 - \mu_BB)
+\end{equation}
+
+\begin{equation}
+    k4 = h * (\lambda_2+ \frac{k_7{k_8}^2}{{k_8}^2\delta B^2} -\mu_XX)
+\end{equation}
+
+\item Compute the new values of S1, S3, B, and X at the next time step using the following formulas:
+
+\begin{equation}
+    S_1(t+h) = S_1(t) + \frac{1}{6}(k1 + 2k2 + 2k3 + k4)
+\end{equation}
+
+\begin{equation}
+    S_3(t+h) = S_3(t) + \frac{1}{6}(k1 + 2k2 + 2k3 + k4)
+\end{equation}
+
+\begin{equation}
+    B(t+h) = B(t) + \frac{1}{6}(k1 + 2k2 + 2k3 + k4)
+\end{equation}
+
+\begin{equation}
+    B(t+h) = B(t) + \frac{1}{6}(k1 + 2k2 + 2k3 + k4)
+\end{equation}
+
+\item Repeat steps 3 and 4 for each time step until the end of the simulation. 
+\end{enumerate}
+
+It's important to note that the specific values of k1, k2, k3, and k4 will depend on the values of the variables at the current time step and on the specific ODEs being solved.
+
